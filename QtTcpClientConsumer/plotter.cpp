@@ -49,8 +49,8 @@ void plotter::paintEvent(QPaintEvent *event){
   for(int i=1;i<x;i++){
       qDebug()<<i<<pontos[i];
       painter.drawLine(
-                  (width()/(x-1))*i,height()/2*(1-pontos[i]/100.0),
-                  (width()/(x-1))*(i-1),height()/2*(1-pontos[i-1]/100.0));
+                  (width()/(x-1))*i,height()*(1-pontos[i]/100.0),
+                  (width()/(x-1))*(i-1),height()*(1-pontos[i-1]/100.0));
   }
 }
 

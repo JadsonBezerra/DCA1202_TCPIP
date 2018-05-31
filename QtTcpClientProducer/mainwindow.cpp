@@ -53,9 +53,13 @@ void MainWindow::timerEvent(QTimerEvent *event)
 void MainWindow::tcpConnect(){
   socket->connectToHost(strIP,1234);
   if(socket->waitForConnected(3000)){
+      QStringList list("Connected");
+      ui->listWidget->addItems(list);
     qDebug() << "Connected";
   }
   else{
+      QStringList list("Disconnected");
+      ui->listWidget->addItems(list);
     qDebug() << "Disconnected";
   }
 }
@@ -64,9 +68,13 @@ void MainWindow::tcpDisconnect()
 {
     socket->disconnectFromHost();
     if(socket->waitForConnected(3000)){
+        QStringList list("Connected");
+        ui->listWidget->addItems(list);
       qDebug() << "Connected";
     }
     else{
+        QStringList list("Disconnected");
+        ui->listWidget->addItems(list);
       qDebug() << "Disconnected";
     }
 }

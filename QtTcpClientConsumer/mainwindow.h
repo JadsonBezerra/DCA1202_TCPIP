@@ -13,16 +13,25 @@ class MainWindow;
 class MainWindow : public QMainWindow
 {
   Q_OBJECT
-
+QString strIP;
+int cont,timer;
+std::vector<int> id;
 public:
   explicit MainWindow(QWidget *parent = 0);
+    void timerEvent(QTimerEvent *event);
   ~MainWindow();
+      void getData();
   
-  void tcpConnect();
 signals:
+
   std::vector<int> passData(std::vector<int>);
 public slots:
-  void getData();
+  void tcpConnect();
+  void tcpDisconnect();
+        void setIP(QString);
+  void ligaTimer();
+  void desligaTimer();
+  void setTimer(int _t);
 private:
   Ui::MainWindow *ui;
   QTcpSocket *socket;
