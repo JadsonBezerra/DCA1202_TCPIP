@@ -7,10 +7,18 @@ MainWindow::MainWindow(QWidget *parent) :
   ui->setupUi(this);
   socket = new QTcpSocket(this);
 
-  connect(ui->pushButtonPut,
+  connect(ui->Start,
           SIGNAL(clicked(bool)),
           this,
-          SLOT(putData()));
+          SLOT(ligaTimer()));
+  connect(ui->Stop,
+          SIGNAL(clicked(bool)),
+          this,
+          SLOT(desligaTimer()));
+  connect(ui->sliderTiming,
+          SIGNAL(valueChanged(int)),
+          this,
+          SLOT(setTimer(int)));
   connect(ui->SliderMax,
           SIGNAL(valueChanged(int)),
           this,
@@ -32,6 +40,14 @@ MainWindow::MainWindow(QWidget *parent) :
           this,
           SLOT(changeIP(QString)));
   strIP="127.0.0.1";
+  timer=1;
+  maxData=10;
+  minData=1;
+}
+
+void MainWindow::timerEvent(QTimerEvent *event)
+{
+    putData();
 }
 
 void MainWindow::tcpConnect(){
@@ -69,7 +85,8 @@ void MainWindow::putData(){
 
     msecdate = QDateTime::currentDateTime().toMSecsSinceEpoch();
     str = "set "+ QString::number(msecdate) + " " + QString::number(minData+qrand()%(maxData-minData))+"\r\n";
-
+    QStringList list(str);
+    ui->listWidget->addItems(list);
       qDebug() << str;
       qDebug() << socket->write(str.toStdString().c_str()) << " bytes written";
       if(socket->waitForBytesWritten(3000)){
@@ -86,6 +103,27 @@ void MainWindow::setMinData(int _min)
 void MainWindow::setMaxData(int _max)
 {
     maxData=_max;
+}
+
+void MainWindow::ligaTimer()
+{
+    if(id.size()==0){
+       id.push_back(startTimer(10*timer));
+    }
+    else{
+        killTimer(id[0]);
+        id[0]=startTimer(10*timer);
+    }
+}
+
+void MainWindow::desligaTimer()
+{
+    killTimer(id[0]);
+}
+
+void MainWindow::setTimer(int _t)
+{
+    timer=_t;
 }
 
 MainWindow::~MainWindow(){
