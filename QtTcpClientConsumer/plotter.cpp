@@ -18,6 +18,11 @@ void plotter::recebe(std::vector<int> _teste)
 {
     pontos=std::vector <int>(_teste);
     x=pontos.size();
+}
+
+void plotter::recebeTime(std::vector<int> _teste)
+{
+    time=std::vector <int>(_teste);
     repaint();
 }
 
@@ -40,23 +45,17 @@ void plotter::paintEvent(QPaintEvent *event){
   painter.setPen(pen);
 
   painter.drawLine(0,height()/2,width(),height()/2);
+  painter.drawLine(0,3*height()/4,width(),3*height()/4);
+  painter.drawLine(0,height()/4,width(),height()/4);
 
   pen.setStyle(Qt::SolidLine);
   pen.setWidth(2);
   painter.setPen(pen);
-
-
-  for(int i=1;i<x;i++){
-      qDebug()<<i<<pontos[i];
+  for(int i=x-1;i>0;i--){
       painter.drawLine(
-                  (width()/(x-1))*i,height()*(1-pontos[i]/100.0),
-                  (width()/(x-1))*(i-1),height()*(1-pontos[i-1]/100.0));
+                  (width()*time[i]/(time[0]-1)),height()*(1-pontos[i]/100.0),
+                  (width()*time[i-1]/(time[0]-1)),height()*(1-pontos[i-1]/100.0));
   }
 }
-
-
-
-
-
 
 

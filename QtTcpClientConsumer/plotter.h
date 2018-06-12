@@ -9,7 +9,7 @@ class plotter : public QWidget
   Q_OBJECT
 private:
   int x;
-  std::vector <int> pontos;
+  std::vector <int> pontos,time;
 public:
   explicit plotter(QWidget *parent = nullptr);
   void paintEvent(QPaintEvent *event);
@@ -18,6 +18,7 @@ signals:
   int mudaY(int);
 public slots:
   void recebe(std::vector<int> _teste);
+  void recebeTime(std::vector<int> _teste);
 };
 
 #endif // PLOTTER_H

@@ -56,11 +56,13 @@ void MainWindow::tcpConnect(){
       QStringList list("Connected");
       ui->listWidget->addItems(list);
     qDebug() << "Connected";
+      ui->labelConnect->setText("Connected to "+strIP);
   }
   else{
-      QStringList list("Disconnected");
+      QStringList list("Connection error");
       ui->listWidget->addItems(list);
-    qDebug() << "Disconnected";
+    qDebug() <<"Connection error";
+    ui->labelConnect->setText("Connection error");
   }
 }
 
@@ -71,11 +73,13 @@ void MainWindow::tcpDisconnect()
         QStringList list("Connected");
         ui->listWidget->addItems(list);
       qDebug() << "Connected";
+       ui->labelConnect->setText("Connected to "+strIP);
     }
     else{
         QStringList list("Disconnected");
         ui->listWidget->addItems(list);
       qDebug() << "Disconnected";
+       ui->labelConnect->setText("Disconnected");
     }
 }
 
@@ -92,7 +96,7 @@ void MainWindow::putData(){
   if(socket->state()== QAbstractSocket::ConnectedState){
 
     msecdate = QDateTime::currentDateTime().toMSecsSinceEpoch();
-    str = "set "+ QString::number(msecdate) + " " + QString::number(minData+qrand()%(maxData-minData))+"\r\n";
+    str = "set "+ QString::number(msecdate) + " " + QString::number((float)minData+((float)qrand()/(float)RAND_MAX)*(float)(maxData-minData))+"\r\n";
     QStringList list(str);
     ui->listWidget->addItems(list);
       qDebug() << str;
@@ -105,6 +109,7 @@ void MainWindow::putData(){
 
 void MainWindow::setMinData(int _min)
 {
+    ui->SliderMax->setMinimum(_min);
     minData=_min;
 }
 
@@ -116,22 +121,26 @@ void MainWindow::setMaxData(int _max)
 void MainWindow::ligaTimer()
 {
     if(id.size()==0){
-       id.push_back(startTimer(10*timer));
+       id.push_back(startTimer(1000*timer));
     }
     else{
         killTimer(id[0]);
-        id[0]=startTimer(10*timer);
+        id[0]=startTimer(1000*timer);
     }
 }
 
 void MainWindow::desligaTimer()
 {
     killTimer(id[0]);
+    id.clear();
 }
 
 void MainWindow::setTimer(int _t)
 {
     timer=_t;
+    if(id.size()){
+        ligaTimer();
+    }
 }
 
 MainWindow::~MainWindow(){

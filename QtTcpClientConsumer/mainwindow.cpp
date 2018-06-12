@@ -8,8 +8,12 @@ MainWindow::MainWindow(QWidget *parent) :
 {
   ui->setupUi(this);
   socket = new QTcpSocket(this);
-    cont=1;
+    cont=2;
     timer=1;
+    connect(this,
+            SIGNAL(passTime(std::vector<int>)),
+            ui->widget,
+            SLOT(recebeTime(std::vector<int>)));
     connect(ui->sliderTiming,
             SIGNAL(valueChanged(int)),
             this,
@@ -22,10 +26,6 @@ MainWindow::MainWindow(QWidget *parent) :
             SIGNAL(clicked(bool)),
             this,
             SLOT(desligaTimer()));
-  connect(ui->pushButtonGet,
-          SIGNAL(clicked(bool)),
-          this,
-          SLOT(getData()));
   connect(ui->connectButton,
           SIGNAL(clicked(bool)),
           this,
@@ -43,22 +43,40 @@ MainWindow::MainWindow(QWidget *parent) :
           SIGNAL(textChanged(QString)),
           this,
           SLOT(setIP(QString)));
+  connect(ui->listWidget,
+          SIGNAL(currentTextChanged(QString)),
+          this,
+          SLOT(changeGetIp(QString)));
+
   strIP="127.0.0.1";
+  getIP=strIP;
 }
 
 void MainWindow::timerEvent(QTimerEvent *event)
 {
-    cont++;
     getData();
 }
 
 void MainWindow::tcpConnect(){
+  QString str;
   socket->connectToHost(strIP,1234);
   if(socket->waitForConnected(3000)){
+    getIP=strIP;
     qDebug() << "Connected";
+    socket->write("list");
+    socket->waitForBytesWritten();
+    socket->waitForReadyRead();
+    while(socket->bytesAvailable()){
+      str = socket->readLine().replace("\n","").replace("\r","");
+      qDebug() << str;
+      ui->listWidget->clear();
+      ui->listWidget->addItem(str);
+      }
+    ui->label_con->setText("Connected to "+strIP);
   }
   else{
     qDebug() << "Disconnected";
+        ui->label_con->setText("Connection Error");
   }
 }
 
@@ -70,6 +88,7 @@ void MainWindow::tcpDisconnect()
     }
     else{
       qDebug() << "Disconnected";
+          ui->label_con->setText("Disconnected");
     }
 }
 
@@ -82,11 +101,11 @@ void MainWindow::setIP(QString _IP)
 void MainWindow::ligaTimer()
 {
     if(id.size()==0){
-       id.push_back(startTimer(10*timer));
+       id.push_back(startTimer(1000*timer));
     }
     else{
         killTimer(id[0]);
-        id[0]=startTimer(10*timer);
+        id[0]=startTimer(1000*timer);
     }
 }
 
@@ -94,11 +113,15 @@ void MainWindow::desligaTimer()
 {
     killTimer(id[0]);
     cont=0;
+    id.clear();
 }
 
 void MainWindow::setTimer(int _t)
 {
     timer=_t;
+    if(id.size()){
+        ligaTimer();
+    }
 }
 
 
@@ -107,13 +130,14 @@ void MainWindow::getData(){
   QByteArray array;
   QStringList list;
   qint64 thetime;
-  std::vector <int>teste;
+  std::vector <int>valores,timeP;
+  std::vector <long long>time;
   qDebug() << "to get data...";
   if(socket->state() == QAbstractSocket::ConnectedState){
     if(socket->isOpen()){
       qDebug() << "reading...";
       aux=QString::fromStdString(std::to_string(cont));
-      array=QByteArray("get "+strIP.toUtf8()+" "+aux.toUtf8()+"\r\n");
+      array=QByteArray("get "+getIP.toUtf8()+" "+aux.toUtf8()+"\r\n");
       socket->write(array);
       socket->waitForBytesWritten();
       socket->waitForReadyRead();
@@ -126,13 +150,40 @@ void MainWindow::getData(){
           str = list.at(0);
           thetime = str.toLongLong(&ok);
           str = list.at(1);
-          teste.push_back(str.toInt());
+          valores.push_back((int)str.toFloat());
+          time.push_back((long long)thetime);
           qDebug() << thetime << ": " << str;
         }
       }
     }
   }
-  emit passData(teste);
+
+  for(int i=0;i<time.size();i++){
+      timeP.push_back(-time[i]+time[time.size()-1]);
+      qDebug()<<timeP[i];
+  }
+  cont=valores.size()+1;
+  emit passData(valores);
+  emit passTime(timeP);
+}
+
+void MainWindow::update()
+{
+    QString str;
+    socket->write("list");
+    socket->waitForBytesWritten();
+    socket->waitForReadyRead();
+    while(socket->bytesAvailable()){
+      str = socket->readLine().replace("\n","").replace("\r","");
+      qDebug() << str;
+      ui->listWidget->clear();
+      ui->listWidget->addItem(str);
+      }
+}
+
+void MainWindow::changeGetIp(QString _g)
+{
+    getIP=_g;
 }
 
 
