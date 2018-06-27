@@ -36,9 +36,9 @@ MainWindow::MainWindow(QWidget *parent) :
           SLOT(tcpDisconnect()));
 
   connect(this,
-          SIGNAL(passData(std::vector<int>)),
+          SIGNAL(passData(std::vector<float>)),
           ui->widget,
-          SLOT(recebe(std::vector<int>)));
+          SLOT(recebe(std::vector<float>)));
   connect(ui->lineIP,
           SIGNAL(textChanged(QString)),
           this,
@@ -130,7 +130,8 @@ void MainWindow::getData(){
   QByteArray array;
   QStringList list;
   qint64 thetime;
-  std::vector <int>valores,timeP;
+  std::vector <float>valores;
+  std::vector <int>timeP;
   std::vector <long long>time;
   qDebug() << "to get data...";
   if(socket->state() == QAbstractSocket::ConnectedState){
@@ -150,7 +151,7 @@ void MainWindow::getData(){
           str = list.at(0);
           thetime = str.toLongLong(&ok);
           str = list.at(1);
-          valores.push_back((int)str.toFloat());
+          valores.push_back(str.toFloat());
           time.push_back((long long)thetime);
           qDebug() << thetime << ": " << str;
         }
@@ -159,7 +160,7 @@ void MainWindow::getData(){
   }
 
   for(int i=0;i<time.size();i++){
-      timeP.push_back(-time[i]+time[time.size()-1]);
+      timeP.insert(timeP.begin(),-time[i]+time[time.size()-1]);
       qDebug()<<timeP[i];
   }
   cont=valores.size()+1;

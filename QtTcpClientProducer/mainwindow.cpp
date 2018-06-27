@@ -53,14 +53,12 @@ void MainWindow::timerEvent(QTimerEvent *event)
 void MainWindow::tcpConnect(){
   socket->connectToHost(strIP,1234);
   if(socket->waitForConnected(3000)){
-      QStringList list("Connected");
-      ui->listWidget->addItems(list);
+      ui->textBrowser->append("Connected");
     qDebug() << "Connected";
       ui->labelConnect->setText("Connected to "+strIP);
   }
   else{
-      QStringList list("Connection error");
-      ui->listWidget->addItems(list);
+      ui->textBrowser->append("Connection error");
     qDebug() <<"Connection error";
     ui->labelConnect->setText("Connection error");
   }
@@ -70,14 +68,12 @@ void MainWindow::tcpDisconnect()
 {
     socket->disconnectFromHost();
     if(socket->waitForConnected(3000)){
-        QStringList list("Connected");
-        ui->listWidget->addItems(list);
+        ui->textBrowser->append("Connected");
       qDebug() << "Connected";
        ui->labelConnect->setText("Connected to "+strIP);
     }
     else{
-        QStringList list("Disconnected");
-        ui->listWidget->addItems(list);
+        ui->textBrowser->append("Disconected");
       qDebug() << "Disconnected";
        ui->labelConnect->setText("Disconnected");
     }
@@ -97,8 +93,7 @@ void MainWindow::putData(){
 
     msecdate = QDateTime::currentDateTime().toMSecsSinceEpoch();
     str = "set "+ QString::number(msecdate) + " " + QString::number((float)minData+((float)qrand()/(float)RAND_MAX)*(float)(maxData-minData))+"\r\n";
-    QStringList list(str);
-    ui->listWidget->addItems(list);
+    ui->textBrowser->append(str);
       qDebug() << str;
       qDebug() << socket->write(str.toStdString().c_str()) << " bytes written";
       if(socket->waitForBytesWritten(3000)){

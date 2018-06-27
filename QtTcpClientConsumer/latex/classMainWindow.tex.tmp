@@ -1,0 +1,76 @@
+\hypertarget{classMainWindow}{}\section{Main\+Window Class Reference}
+\label{classMainWindow}\index{Main\+Window@{Main\+Window}}
+
+
+A classe \hyperlink{classMainWindow}{Main\+Window} é a classe que gera a janela principal.  
+
+
+
+
+{\ttfamily \#include $<$mainwindow.\+h$>$}
+
+
+
+Inheritance diagram for Main\+Window\+:
+% FIG 0
+
+
+Collaboration diagram for Main\+Window\+:
+% FIG 1
+\subsection*{Public Slots}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classMainWindow_a128f71880d4b9683149023fc46fcc9f8}{update} ()\hypertarget{classMainWindow_a128f71880d4b9683149023fc46fcc9f8}{}\label{classMainWindow_a128f71880d4b9683149023fc46fcc9f8}
+
+\begin{DoxyCompactList}\small\item\em o metodo update atualiza os I\+PS das maquinas que geraram os dados \end{DoxyCompactList}\item 
+void \hyperlink{classMainWindow_ab11baaa3a03192c0f5abe31e15241d1b}{change\+Get\+Ip} (Q\+String \+\_\+g)\hypertarget{classMainWindow_ab11baaa3a03192c0f5abe31e15241d1b}{}\label{classMainWindow_ab11baaa3a03192c0f5abe31e15241d1b}
+
+\begin{DoxyCompactList}\small\item\em o metodo change\+Get\+Ip modifica a variavel get\+IP \end{DoxyCompactList}\item 
+void \hyperlink{classMainWindow_ac5b669957c442b6eb68573dacfce33e1}{tcp\+Connect} ()\hypertarget{classMainWindow_ac5b669957c442b6eb68573dacfce33e1}{}\label{classMainWindow_ac5b669957c442b6eb68573dacfce33e1}
+
+\begin{DoxyCompactList}\small\item\em O metodo tcp\+Connect conecta a main\+Window no servidor. \end{DoxyCompactList}\item 
+void \hyperlink{classMainWindow_a4d22c4c7afc7ba0a2fa4c70515c85dda}{tcp\+Disconnect} ()\hypertarget{classMainWindow_a4d22c4c7afc7ba0a2fa4c70515c85dda}{}\label{classMainWindow_a4d22c4c7afc7ba0a2fa4c70515c85dda}
+
+\begin{DoxyCompactList}\small\item\em O metodo tcp\+Disconnect desconecta a main\+Window no servidor. \end{DoxyCompactList}\item 
+void \hyperlink{classMainWindow_a77d0cc380120e20979a72ebef70bcdf4}{set\+IP} (Q\+String)\hypertarget{classMainWindow_a77d0cc380120e20979a72ebef70bcdf4}{}\label{classMainWindow_a77d0cc380120e20979a72ebef70bcdf4}
+
+\begin{DoxyCompactList}\small\item\em O metodo set\+IP modifica a variavel str\+IP. \end{DoxyCompactList}\item 
+void \hyperlink{classMainWindow_ae3e0a43bdcb1908e339315208ef8a6d7}{liga\+Timer} ()\hypertarget{classMainWindow_ae3e0a43bdcb1908e339315208ef8a6d7}{}\label{classMainWindow_ae3e0a43bdcb1908e339315208ef8a6d7}
+
+\begin{DoxyCompactList}\small\item\em O metodo liga\+Timer liga o timer. \end{DoxyCompactList}\item 
+void \hyperlink{classMainWindow_a67c1d3d99eb7c4b5b4d3d16867eb7ca0}{desliga\+Timer} ()\hypertarget{classMainWindow_a67c1d3d99eb7c4b5b4d3d16867eb7ca0}{}\label{classMainWindow_a67c1d3d99eb7c4b5b4d3d16867eb7ca0}
+
+\begin{DoxyCompactList}\small\item\em O metodo desliga\+Timer desliga o timer. \end{DoxyCompactList}\item 
+void \hyperlink{classMainWindow_ab5db2dcd9b9592285a18fa7d19256e6a}{set\+Timer} (int \+\_\+t)\hypertarget{classMainWindow_ab5db2dcd9b9592285a18fa7d19256e6a}{}\label{classMainWindow_ab5db2dcd9b9592285a18fa7d19256e6a}
+
+\begin{DoxyCompactList}\small\item\em O metodo set\+Timer modifica o tempo do timer. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Signals}
+\begin{DoxyCompactItemize}
+\item 
+std\+::vector$<$ float $>$ \hyperlink{classMainWindow_a39431cbb637ef9c3b9b65341c0f14aef}{pass\+Data} (std\+::vector$<$ float $>$)\hypertarget{classMainWindow_a39431cbb637ef9c3b9b65341c0f14aef}{}\label{classMainWindow_a39431cbb637ef9c3b9b65341c0f14aef}
+
+\begin{DoxyCompactList}\small\item\em o sinal pass\+Data passa os dados \end{DoxyCompactList}\item 
+std\+::vector$<$ int $>$ \hyperlink{classMainWindow_acd6f7fe2ff12181ed3fe4af1494242b3}{pass\+Time} (std\+::vector$<$ int $>$)\hypertarget{classMainWindow_acd6f7fe2ff12181ed3fe4af1494242b3}{}\label{classMainWindow_acd6f7fe2ff12181ed3fe4af1494242b3}
+
+\begin{DoxyCompactList}\small\item\em o sinal pass\+Time passa o tempo \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries Main\+Window} (Q\+Widget $\ast$parent=0)\hypertarget{classMainWindow_a8b244be8b7b7db1b08de2a2acb9409db}{}\label{classMainWindow_a8b244be8b7b7db1b08de2a2acb9409db}
+
+\item 
+void {\bfseries timer\+Event} (Q\+Timer\+Event $\ast$event)\hypertarget{classMainWindow_aaa425b1554af3c1f58cc70b4815082ae}{}\label{classMainWindow_aaa425b1554af3c1f58cc70b4815082ae}
+
+\item 
+void \hyperlink{classMainWindow_a4a2ddf4cf2ec8e240cc340416b1df792}{get\+Data} ()\hypertarget{classMainWindow_a4a2ddf4cf2ec8e240cc340416b1df792}{}\label{classMainWindow_a4a2ddf4cf2ec8e240cc340416b1df792}
+
+\begin{DoxyCompactList}\small\item\em o metodo get\+Data realiza o processo necessário para receber dados do servidor \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+A classe \hyperlink{classMainWindow}{Main\+Window} é a classe que gera a janela principal. 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+mainwindow.\+h\item 
+mainwindow.\+cpp\end{DoxyCompactItemize}

@@ -14,9 +14,9 @@ plotter::plotter(QWidget *parent) : QWidget(parent)
   x=0;
 }
 
-void plotter::recebe(std::vector<int> _teste)
+void plotter::recebe(std::vector<float> _teste)
 {
-    pontos=std::vector <int>(_teste);
+    pontos=std::vector <float>(_teste);
     x=pontos.size();
 }
 
@@ -44,17 +44,16 @@ void plotter::paintEvent(QPaintEvent *event){
   pen.setWidth(1);
   painter.setPen(pen);
 
-  painter.drawLine(0,height()/2,width(),height()/2);
-  painter.drawLine(0,3*height()/4,width(),3*height()/4);
-  painter.drawLine(0,height()/4,width(),height()/4);
+  for(int i=1;i<10;i++)
+    painter.drawLine(0,i*height()/10,width(),i*height()/10);
 
   pen.setStyle(Qt::SolidLine);
   pen.setWidth(2);
   painter.setPen(pen);
-  for(int i=x-1;i>0;i--){
+  for(unsigned short i=1;i<pontos.size();i++){
       painter.drawLine(
-                  (width()*time[i]/(time[0]-1)),height()*(1-pontos[i]/100.0),
-                  (width()*time[i-1]/(time[0]-1)),height()*(1-pontos[i-1]/100.0));
+                  (width()*time[i]/(time[pontos.size()-1]-1)),height()*(1-pontos[i]/100.0),
+                  (width()*time[i-1]/(time[pontos.size()-1]-1)),height()*(1-pontos[i-1]/100.0));
   }
 }
 
